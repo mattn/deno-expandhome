@@ -40,4 +40,4 @@ clean:
 	rm -f *.o $(TARGET)
 
 test: $(TARGET)
-	deno run --unstable --allow-ffi ffi.ts
+	deno run --unstable --allow-net --allow-write --allow-env --allow-read --allow-ffi ffi.ts
