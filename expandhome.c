@@ -1,4 +1,5 @@
 #ifndef _WIN32
+# define _DARWIN_C_SOURCE
 # define _POSIX_SOURCE
 # include <unistd.h>
 # include <sys/types.h>
