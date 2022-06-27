@@ -22,6 +22,8 @@ ifeq ($(DENO_OS),darwin)
   TARGET := $(TARGET)-$(ARCH).dylib
 endif
 
+export PLUGIN_URL := ./
+
 .SUFFIXES: .c .o
 
 all: $(TARGET)
@@ -40,4 +42,4 @@ clean:
 	rm -f *.o $(TARGET)
 
 test: $(TARGET)
-	deno run --unstable --allow-net --allow-write --allow-env --allow-read --allow-ffi ffi.ts
+	deno run --unstable --allow-write --allow-env --allow-read --allow-ffi ffi.ts
