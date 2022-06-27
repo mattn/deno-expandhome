@@ -36,9 +36,12 @@ export function expandHome(path: string): string {
     return homePath(sub);
   });
 }
+
+/*
 console.log(expandHome("~"));
 console.log(expandHome("~/"));
 console.log(expandHome("~/foo"));
 console.log(expandHome("~mattn"));
 console.log(expandHome("~mattn/"));
 console.log(expandHome("~mattn/foo"));
+*/
