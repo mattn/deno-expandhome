@@ -43,7 +43,7 @@ expandhome(const char* name) {
   }
   if (pwd == NULL)
     return NULL;
-  return strdup(pwd->pw_dir);
+  return strdup((const char*) pwd->pw_dir);
 #else
   WCHAR szDomainName[256];
   DWORD dwSizeDomain = sizeof(szDomainName) / sizeof(WCHAR);
