@@ -91,6 +91,7 @@ expandhome(const char* name) {
   return wcstr_to_utf8(buf);
 
 failed:
+  if (hKey != NULL) RegCloseKey(hKey);
   if (szSid != NULL) LocalFree(szSid);
   if (un != NULL) free(un);
   return NULL;
