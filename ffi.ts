@@ -1,4 +1,4 @@
-import { join, normalize } from "https://deno.land/std@0.145.0/path/mod.ts";
+import { CachePolicy, download, join, normalize, prepare } from "./deps.ts";
 
 let suffix = "";
 switch (Deno.build.os) {
@@ -12,12 +12,28 @@ switch (Deno.build.os) {
     suffix = "so";
     break;
 }
-
 const lib = `./libexpandhome-${Deno.build.arch}.${suffix}`;
-const dylib = Deno.dlopen(lib, {
-  "expandhome": { parameters: ["pointer"], result: "pointer" },
-  "free_buf": { parameters: ["pointer"], result: "void" },
-});
+
+const version = "v0.0.1";
+const policy = Deno.env.get("PLUGIN_URL") === undefined
+  ? CachePolicy.STORE
+  : CachePolicy.NONE;
+let url = Deno.env.get("PLUGIN_URL") ??
+  `https://github.com/mattn/deno-expandhome/releases/download/${version}/`;
+
+url = join(url, lib);
+
+const dylib = await prepare(
+  {
+    name: "expandhome",
+    url,
+    policy,
+  },
+  {
+    "expandhome": { parameters: ["pointer"], result: "pointer" },
+    "free_buf": { parameters: ["pointer"], result: "void" },
+  } as const,
+);
 
 export function homePath(user: string | undefined): string {
   const buf = new TextEncoder().encode((user || "") + "\0");
