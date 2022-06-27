@@ -23,17 +23,18 @@ jobs:
       - name: make
         run: make
 
-#  Run-make-on-Windows:
-#    name: Run make on Windows
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: msys2/setup-msys2@v2
-#        with:
-#          update: true
-#          install: mingw-w64-x86_64-toolchain
-#          msystem: MINGW64
-#          path-type: inherit
-#        shell: msys2 {0}
-#        run: |
-#          mingw32-make
+  Run-make-on-Windows:
+    name: Run make on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: mingw-w64-x86_64-toolchain
+          msystem: MINGW64
+          path-type: inherit
+      - name: make
+        shell: msys2 {0}
+        run: |
+          mingw32-make

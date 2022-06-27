@@ -1,8 +1,8 @@
 #ifndef _WIN32
 # define _POSIX_SOURCE
-# include <pwd.h>
 # include <unistd.h>
 # include <sys/types.h>
+# include <pwd.h>
 # include <stdlib.h>
 # include <string.h>
 # define EXPORT
