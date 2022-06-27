@@ -1,19 +1,19 @@
 import { join, normalize } from "https://deno.land/std@0.145.0/path/mod.ts";
 
-let libSuffix = "";
+let suffix = "";
 switch (Deno.build.os) {
   case "windows":
-    libSuffix = "dll";
+    suffix = "dll";
     break;
   case "darwin":
-    libSuffix = "dylib";
+    suffix = "dylib";
     break;
   default:
-    libSuffix = "so";
+    suffix = "so";
     break;
 }
 
-const lib = `./libexpandhome.${libSuffix}`;
+const lib = `./libexpandhome-${Deno.build.arch}.${suffix}`;
 const dylib = Deno.dlopen(lib, {
   "expandhome": { parameters: ["pointer"], result: "pointer" },
   "free_buf": { parameters: ["pointer"], result: "void" },
