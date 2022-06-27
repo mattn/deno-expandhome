@@ -7,24 +7,36 @@ CFLAGS = -shared
 LDFLAGS = -shared
 LIBS = 
 TARGET = libexpandhome
-ifeq ($(OS),Windows_NT)
-TARGET := $(TARGET).dll
-LIBS = -ladvapi32 -lnetapi32
-else
-TARGET := $(TARGET).so
+
+DENO_OS := $(shell deno eval "console.log(Deno.build.os)")
+ARCH := $(shell deno eval "console.log(Deno.build.arch)")
+
+ifeq ($(DENO_OS),windows)
+  TARGET := $(TARGET)-$(ARCH).dll
+  LIBS = -ladvapi32 -lnetapi32
+endif
+ifeq ($(DENO_OS),linux)
+  TARGET := $(TARGET)-$(ARCH).so
+endif
+ifeq ($(DENO_OS),darwin)
+  TARGET := $(TARGET)-$(ARCH).dylib
 endif
 
 .SUFFIXES: .c .o
 
-all : $(TARGET)
+all: $(TARGET)
 
-$(TARGET) : $(OBJS)
+$(TARGET): $(OBJS)
 	gcc -o $@ $(LDFLAGS) $(OBJS) $(LIBS)
 
-.c.o :
+.c.o:
 	gcc -c $(CFLAGS) -I. $< -o $@
 
-clean :
+dist: $(TARGET)
+	mkdir -p dist
+	cp $(TARGET) dist/
+
+clean:
 	rm -f *.o $(TARGET)
 
 test: $(TARGET)
