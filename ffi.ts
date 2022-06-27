@@ -19,7 +19,7 @@ const dylib = Deno.dlopen(lib, {
   "free_buf": { parameters: ["pointer"], result: "void" },
 });
 
-function homePath(user: string | undefined): string {
+export function homePath(user: string | undefined): string {
   const buf = new TextEncoder().encode((user || "") + "\0");
   const result = dylib.symbols.expandhome(buf);
   if (result.valueOf() === 0n) {
@@ -31,15 +31,14 @@ function homePath(user: string | undefined): string {
   return path;
 }
 
-function expandPath(path: string): string {
+export function expandHome(path: string): string {
   return normalize(path).replace(/^~([^\/\\]*)/, (all, sub) => {
     return homePath(sub);
   });
 }
-
-console.log(expandPath("~"));
-console.log(expandPath("~/"));
-console.log(expandPath("~/foo"));
-console.log(expandPath("~mattn"));
-console.log(expandPath("~mattn/"));
-console.log(expandPath("~mattn/foo"));
+console.log(expandHome("~"));
+console.log(expandHome("~/"));
+console.log(expandHome("~/foo"));
+console.log(expandHome("~mattn"));
+console.log(expandHome("~mattn/"));
+console.log(expandHome("~mattn/foo"));
