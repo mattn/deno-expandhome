@@ -15,14 +15,14 @@ jobs:
       - name: make
         run: make
 
-#  Run-make-on-Darwin:
-#    name: Run make on Darwin
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: make
-#        run: make
-#
+  Run-make-on-Darwin:
+    name: Run make on Darwin
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: make
+        run: make
+
 #  Run-make-on-Windows:
 #    name: Run make on Windows
 #    runs-on: windows-latest
