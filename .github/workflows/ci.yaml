@@ -1,0 +1,39 @@
+name: release
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Run-make-on-Ubuntu:
+    name: Run make on Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: make
+        run: make
+
+  Run-make-on-Darwin:
+    name: Run make on Darwin
+    runs-on: macosx-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: make
+        run: make
+
+  Run-make-on-Windows:
+    name: Run make on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: mingw-w64-x86_64-toolchain
+          msystem: MINGW64
+          path-type: inherit
+        shell: msys2 {0}
+        run: |
+          mingw32-make
