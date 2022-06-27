@@ -1,4 +1,6 @@
-let libSuffix = "expandhome";
+import { join, normalize } from "https://deno.land/std@0.145.0/path/mod.ts";
+
+let libSuffix = "";
 switch (Deno.build.os) {
   case "windows":
     libSuffix = "dll";
@@ -17,16 +19,27 @@ const dylib = Deno.dlopen(lib, {
   "free_buf": { parameters: ["pointer"], result: "void" },
 });
 
-function expandHome(user: string | undefined): string {
+function homePath(user: string | undefined): string {
   const buf = new TextEncoder().encode((user || "") + "\0");
   const result = dylib.symbols.expandhome(buf);
   if (result.valueOf() === 0n) {
     return "";
   }
   const view = new Deno.UnsafePointerView(result);
-  const home = view.getCString();
+  const path = view.getCString();
   dylib.symbols.free_buf(result);
-  return home;
+  return path;
 }
 
-console.log(expandHome());
+function expandPath(path: string): string {
+  return normalize(path).replace(/^~([^\/\\]*)/, (all, sub) => {
+    return homePath(sub);
+  });
+}
+
+console.log(expandPath("~"));
+console.log(expandPath("~/"));
+console.log(expandPath("~/foo"));
+console.log(expandPath("~mattn"));
+console.log(expandPath("~mattn/"));
+console.log(expandPath("~mattn/foo"));
