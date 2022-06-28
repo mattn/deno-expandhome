@@ -14,7 +14,7 @@ switch (Deno.build.os) {
 }
 const lib = `./libexpandhome-${Deno.build.arch}.${suffix}`;
 
-const version = "v0.0.3";
+const version = "v0.0.4";
 const policy = Deno.env.get("PLUGIN_URL") === undefined
   ? CachePolicy.STORE
   : CachePolicy.NONE;
