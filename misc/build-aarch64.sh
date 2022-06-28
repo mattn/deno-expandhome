@@ -3,12 +3,12 @@
 DENO_OS=$(deno eval "console.log(Deno.build.os)")
 FLAGS=
 
-case $os in
+case $DENO_OS in
 linux)
   FLAGS=-target aarch64-linux
   ;;
 darwin)
-  FLAGS=-target aarch64-macos-gnu -F/host/Frameworks
+  FLAGS=-target aarch64-macos -F/host/Frameworks
   ;;
 esac
 
