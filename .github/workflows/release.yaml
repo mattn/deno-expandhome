@@ -15,10 +15,10 @@ jobs:
         with:
           deno-version: v1.x
       - uses: goto-bus-stop/setup-zig@v1
+        with:
+          version: 0.6.0+385786eed
       - name: make x86_64
         run: make dist
-      - name: install libc6-dev
-        run: sudo apt install --reinstall libc6-dev
       - name: make aarch64
         run: ./misc/build-aarch64.sh
       - name: Release
