@@ -5,7 +5,7 @@ FLAGS=
 
 case $os in
 linux)
-  sudo apt install --reinstall libc6-dev
+  apt install --reinstall libc6-dev
   ;;
 darwin)
   FLAGS=-F/host/Frameworks
