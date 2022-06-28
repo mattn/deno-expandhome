@@ -18,7 +18,7 @@ jobs:
       - name: make x86_64
         run: make dist
       - name: install libc6-dev
-        run: apt install --reinstall libc6-dev
+        run: sudo apt install --reinstall libc6-dev
       - name: make aarch64
         run: ./misc/build-aarch64.sh
       - name: Release
