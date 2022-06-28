@@ -8,8 +8,12 @@ LDFLAGS = -shared
 LIBS = 
 TARGET = libexpandhome
 
-DENO_OS := $(shell deno eval "console.log(Deno.build.os)")
-ARCH := $(shell deno eval "console.log(Deno.build.arch)")
+ifeq ($(DENO_OS),)
+  DENO_OS := $(shell deno eval "console.log(Deno.build.os)")
+endif
+ifeq ($(ARCH),)
+  ARCH := $(shell deno eval "console.log(Deno.build.arch)")
+endif
 
 ifeq ($(DENO_OS),windows)
   TARGET := $(TARGET)-$(ARCH).dll
@@ -29,10 +33,10 @@ export PLUGIN_URL := ./
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	gcc -o $@ $(LDFLAGS) $(OBJS) $(LIBS)
+	$(CC) -o $@ $(LDFLAGS) $(OBJS) $(LIBS)
 
 .c.o:
-	gcc -c $(CFLAGS) -I. $< -o $@
+	$(CC) -c $(CFLAGS) -I. $< -o $@
 
 dist: $(TARGET)
 	mkdir -p dist
