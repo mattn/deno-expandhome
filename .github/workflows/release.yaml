@@ -36,8 +36,13 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      - uses: goto-bus-stop/setup-zig@v1
+        with:
+          version: 0.7.0
       - name: make x86_64
         run: make dist
+      - name: make aarch64
+        run: ./misc/build-aarch64.sh
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
