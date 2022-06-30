@@ -58,9 +58,9 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      - uses: goto-bus-stop/setup-zig@v1
-        with:
-          version: 0.9.1
+      #- uses: goto-bus-stop/setup-zig@v1
+      #  with:
+      #    version: 0.9.1
       - uses: msys2/setup-msys2@v2
         with:
           update: true
@@ -71,10 +71,10 @@ jobs:
         shell: msys2 {0}
         run: |
           mingw32-make dist
-      - name: make aarch64
-        shell: msys2 {0}
-        run: |
-          mingw32-make ARCH=aarch64 CC="zig cc -target aarch64-windows"
+      #- name: make aarch64
+      #  shell: msys2 {0}
+      #  run: |
+      #    mingw32-make ARCH=aarch64 CC="zig cc -target aarch64-windows"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
