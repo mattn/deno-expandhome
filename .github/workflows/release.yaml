@@ -74,7 +74,7 @@ jobs:
       - name: make aarch64
         shell: msys2 {0}
         run: |
-          mingw32-make ARCH=aarch64 CC="zig cc --target aarch64-windows"
+          mingw32-make ARCH=aarch64 CC="zig cc -target aarch64-windows"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
